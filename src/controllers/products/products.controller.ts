@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -29,6 +31,7 @@ export class ProductsController {
   }
 
   @Post('/')
+  @HttpCode(HttpStatus.CREATED)
   create(@Body() payload: any): object {
     return {
       message: 'Creating one product',
