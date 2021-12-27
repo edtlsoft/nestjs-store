@@ -18,4 +18,12 @@ export class ProductsController {
   ): string {
     return `The product id is: ${productId} <br> And the category Id is: ${categoryId}`;
   }
+
+  @Post('/')
+  create(@Body() payload: any): object {
+    return {
+      message: 'Creating one product',
+      payload,
+    };
+  }
 }
