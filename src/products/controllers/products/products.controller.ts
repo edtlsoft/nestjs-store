@@ -1,7 +1,7 @@
-import { CreateProductDto, UpdateProductDto } from './../../dtos/products.dtos';
-import { ParseIntPipe } from './../../common/parse-int.pipe';
-import { Product } from './../../entities/product.entity';
-import { ProductsService } from './../../services/products/products.service';
+import { CreateProductDto, UpdateProductDto } from '../../dtos/products.dtos';
+import { ParseIntPipe } from '../../../common/parse-int.pipe';
+import { Product } from '../../entities/product.entity';
+import { ProductsService } from '../../services/products/products.service';
 import {
   Body,
   Controller,
