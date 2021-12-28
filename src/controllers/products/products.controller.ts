@@ -39,6 +39,7 @@ export class ProductsController {
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() payload: CreateProductDto): Product {
+    console.log(payload);
     return this.productService.create(payload);
   }
 
