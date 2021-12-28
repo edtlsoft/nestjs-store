@@ -1,3 +1,4 @@
+import { ParseIntPipe } from './../../common/parse-int.pipe';
 import { Product } from './../../entities/product.entity';
 import { ProductsService } from './../../services/products/products.service';
 import {
@@ -22,7 +23,7 @@ export class ProductsController {
   }
 
   @Get('/:id')
-  findOne(@Param('id') id: string): Product {
+  findOne(@Param('id', ParseIntPipe) id: number): Product {
     return this.productService.findOne(+id);
   }
 
