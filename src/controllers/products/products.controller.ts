@@ -1,3 +1,5 @@
+import { Product } from './../../entities/product.entity';
+import { ProductsService } from './../../services/products/products.service';
 import {
   Body,
   Controller,
@@ -13,13 +15,20 @@ import {
 
 @Controller('products')
 export class ProductsController {
+  constructor(private productService: ProductsService) {}
+
   @Get('/')
   findAll(
     @Query('brand') brand: string,
     @Query('limit') limit = 100,
     @Query('offset') offset = 0,
-  ): string {
-    return `Products from ${offset} to ${limit} and ${brand}`;
+  ): Product[] {
+    return this.productService.findAll();
+  }
+
+  @Get('/:id')
+  findOne(@Param('id') id: string): Product {
+    return this.productService.findOne(+id);
   }
 
   @Get('/:id/categories/:categoryId')
@@ -32,27 +41,17 @@ export class ProductsController {
 
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() payload: any): object {
-    return {
-      message: 'Creating one product',
-      payload,
-    };
+  create(@Body() payload: any): Product {
+    return this.productService.create(payload);
   }
 
   @Put('/:id')
-  update(@Param('id') id: number, @Body() payload: any): object {
-    return {
-      message: 'Updating one product',
-      id,
-      payload,
-    };
+  update(@Param('id') id: string, @Body() payload: any): Product {
+    return this.productService.update(+id, payload);
   }
 
   @Delete('/:id')
-  delete(@Param('id') id: number): object {
-    return {
-      message: 'Deleting one product',
-      id,
-    };
+  delete(@Param('id') id: number): any {
+    return this.productService.delete(+id);
   }
 }
