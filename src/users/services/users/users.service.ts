@@ -23,7 +23,7 @@ export class UsersService {
   ) {}
 
   findAll() {
-    const apiKey = this.configService.get('API_KEY');
+    const apiKey = this.configService.get<string>('API_HEY');
     console.log(apiKey);
     return this.users;
   }
