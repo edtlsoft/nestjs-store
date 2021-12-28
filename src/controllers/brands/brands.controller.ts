@@ -1,13 +1,46 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  Put,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
+
+import { BrandsService } from '../../services/brands/brands.service';
+import { CreateBrandDto, UpdateBrandDto } from '../../dtos/brand.dtos';
 
 @Controller('brands')
 export class BrandsController {
-  @Get('/')
-  findAll(
-    @Query('brand') brand: string,
-    @Query('limit') limit = 100,
-    @Query('offset') offset = 0,
-  ): string {
-    return `Brands from ${offset} to ${limit} and ${brand}`;
+  constructor(private brandsService: BrandsService) {}
+
+  @Get()
+  findAll() {
+    return this.brandsService.findAll();
+  }
+
+  @Get(':id')
+  get(@Param('id', ParseIntPipe) id: number) {
+    return this.brandsService.findOne(id);
+  }
+
+  @Post()
+  create(@Body() payload: CreateBrandDto) {
+    return this.brandsService.create(payload);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateBrandDto,
+  ) {
+    return this.brandsService.update(id, payload);
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.brandsService.remove(+id);
   }
 }
