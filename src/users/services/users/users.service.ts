@@ -1,8 +1,9 @@
 import { ProductsService } from './../../../products/services/products/products.service';
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { User } from '../../entities/users/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../../dtos/user.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
@@ -18,10 +19,12 @@ export class UsersService {
 
   constructor(
     private productsService: ProductsService,
-    @Inject('API_KEY') private apiKey: string,
+    private configService: ConfigService,
   ) {}
 
   findAll() {
+    const apiKey = this.configService.get('API_KEY');
+    console.log(apiKey);
     return this.users;
   }
 
