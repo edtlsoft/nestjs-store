@@ -10,7 +10,6 @@ import {
   Param,
   Post,
   Put,
-  Query,
 } from '@nestjs/common';
 
 @Controller('products')
@@ -18,11 +17,7 @@ export class ProductsController {
   constructor(private productService: ProductsService) {}
 
   @Get('/')
-  findAll(
-    @Query('brand') brand: string,
-    @Query('limit') limit = 100,
-    @Query('offset') offset = 0,
-  ): Product[] {
+  findAll(): Product[] {
     return this.productService.findAll();
   }
 

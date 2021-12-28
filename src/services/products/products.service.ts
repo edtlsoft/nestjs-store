@@ -57,7 +57,6 @@ export class ProductsService {
     if (oldProduct) {
       const indice = this.findIndex(oldProduct.id);
 
-      // this.products[indice] = Object.assign(oldProduct, newProduct);
       this.products[indice] = { ...oldProduct, ...newProduct };
 
       return this.products[indice];
