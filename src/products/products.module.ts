@@ -10,5 +10,6 @@ import { Module } from '@nestjs/common';
   imports: [],
   controllers: [BrandsController, CategoriesController, ProductsController],
   providers: [BrandsService, CategoriesService, ProductsService],
+  exports: [ProductsService],
 })
 export class ProductsModule {}

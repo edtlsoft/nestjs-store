@@ -1,3 +1,4 @@
+import { ProductsService } from './../../../products/services/products/products.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { User } from '../../entities/users/user.entity';
@@ -14,6 +15,8 @@ export class UsersService {
       role: 'admin',
     },
   ];
+
+  constructor(private productsService: ProductsService){}
 
   findAll() {
     return this.users;
@@ -54,5 +57,14 @@ export class UsersService {
     }
     this.users.splice(index, 1);
     return true;
+  }
+
+  getOrdersByUser(id: number) {
+    const user = this.findOne(id);
+    return {
+      date: new Date(),
+      user: user,
+      products: this.productsService.findAll(),
+    }
   }
 }
