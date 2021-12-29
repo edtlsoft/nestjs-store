@@ -14,11 +14,15 @@ import {
   Put,
 } from '@nestjs/common';
 
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+
+@ApiTags('Products')
 @Controller('products')
 export class ProductsController {
   constructor(private productService: ProductsService) {}
 
   @Get('/')
+  @ApiOperation({ summary: 'List of products' })
   findAll(): Product[] {
     return this.productService.findAll();
   }
