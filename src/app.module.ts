@@ -1,15 +1,17 @@
-import { environments } from './environments';
-import { ProductsModule } from './products/products.module';
-import { UsersModule } from './users/users.module';
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PaymentsModule } from './payments/payments.module';
-import { HttpModule, HttpService } from '@nestjs/axios';
+import * as Joi from 'joi';
 import { lastValueFrom } from 'rxjs';
-import { DatabaseModule } from './database/database.module';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { HttpModule, HttpService } from '@nestjs/axios';
+
 import config from './config';
+import { AppService } from './app.service';
+import { environments } from './environments';
+import { AppController } from './app.controller';
+import { UsersModule } from './users/users.module';
+import { PaymentsModule } from './payments/payments.module';
+import { DatabaseModule } from './database/database.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -17,6 +19,11 @@ import config from './config';
       envFilePath: environments[process.env.NODE_ENV ?? 'dev'],
       load: [config],
       isGlobal: true,
+      validationSchema: Joi.object({
+        API_KEY: Joi.number().required(),
+        DATABASE_NAME: Joi.string().required(),
+        DATABASE_PORT: Joi.number().required(),
+      }),
     }),
     UsersModule,
     ProductsModule,
