@@ -38,4 +38,4 @@ lerna-debug.log*
 *.env
 
 # PostgreSQL
-/postgresql
+/postgresql_data
