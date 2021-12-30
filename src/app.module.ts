@@ -3,9 +3,8 @@ import { lastValueFrom } from 'rxjs';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { HttpModule, HttpService } from '@nestjs/axios';
-import { Client } from 'pg';
 
-import config from './config';
+import config from './config/config';
 import { AppService } from './app.service';
 import { environments } from './environments';
 import { AppController } from './app.controller';
@@ -13,27 +12,7 @@ import { UsersModule } from './users/users.module';
 import { PaymentsModule } from './payments/payments.module';
 import { DatabaseModule } from './database/database.module';
 import { ProductsModule } from './products/products.module';
-
-const client = new Client({
-  host: 'localhost',
-  user: 'root',
-  password: 'PostgresDbPassword',
-  database: 'nestjs_store',
-  port: 5432,
-});
-
-(async () => {
-  try {
-    await client.connect();
-  } catch (error) {
-    console.log(error);
-  }
-})();
-
-client.query('SELECT * FROM tasks', (err, res) => {
-  console.log(err);
-  console.log(res.rows);
-});
+import configSchema from './config/configSchema';
 
 @Module({
   imports: [
@@ -41,11 +20,7 @@ client.query('SELECT * FROM tasks', (err, res) => {
       envFilePath: environments[process.env.NODE_ENV ?? 'dev'],
       load: [config],
       isGlobal: true,
-      validationSchema: Joi.object({
-        API_KEY: Joi.number().required(),
-        DATABASE_NAME: Joi.string().required(),
-        DATABASE_PORT: Joi.number().required(),
-      }),
+      validationSchema: configSchema,
     }),
     UsersModule,
     ProductsModule,

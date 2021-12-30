@@ -1,5 +1,6 @@
+import { Client } from 'pg';
 import { ProductsService } from './../../../products/services/products/products.service';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import { User } from '../../entities/users/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../../dtos/user.dto';
@@ -20,6 +21,7 @@ export class UsersService {
   constructor(
     private productsService: ProductsService,
     private configService: ConfigService,
+    @Inject('PG_CLIENT') private clientPg: Client,
   ) {}
 
   findAll() {
@@ -72,5 +74,16 @@ export class UsersService {
       user: user,
       products: this.productsService.findAll(),
     };
+  }
+
+  getTasks() {
+    return new Promise((resolve, reject) => {
+      this.clientPg.query('SELECT * FROM tasks', (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res.rows);
+      });
+    });
   }
 }
