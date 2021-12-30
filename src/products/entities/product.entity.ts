@@ -8,10 +8,10 @@ export class Product {
   @Column({ type: 'varchar', length: 255, unique: true })
   name: string;
 
-  @Column({ type: 'text', length: 255 })
+  @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'int'})
+  @Column({ type: 'int' })
   price: number;
 
   @Column({ type: 'int' })

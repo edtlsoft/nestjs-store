@@ -1,78 +1,61 @@
 import { CreateProductDto, UpdateProductDto } from '../../dtos/products.dtos';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from 'src/products/entities/product.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProductsService {
-  private counterId = 1;
-  private products: Product[] = [
-    {
-      id: 1,
-      name: 'Product 1',
-      description: 'bla bla',
-      price: 122,
-      image: '',
-      stock: 12,
-    },
-  ];
+  constructor(
+    @InjectRepository(Product) private productRepo: Repository<Product>,
+  ) {}
 
   findAll() {
-    return this.products;
+    return this.productRepo.find();
   }
 
-  findOne(id: number): Product {
-    const product = this.products.find((p) => p.id === id);
+  async findOne(id: number): Promise<Product> {
+    const product = await this.productRepo.findOne(id);
 
     if (!product) {
       throw new NotFoundException(`Product with id ${id} not found`);
     }
+    console.log(product);
 
     return product;
   }
 
-  findIndex(id: number): number {
-    const productIndex = this.products.findIndex(
-      (product) => product.id === id,
-    );
+  // create(payload: CreateProductDto) {
+  //   this.counterId++;
+  //   const newProduct = {
+  //     id: this.counterId,
+  //     ...payload,
+  //   };
+  //   this.products.push(newProduct);
+  //   return newProduct;
+  // }
 
-    if (productIndex === -1) {
-      throw new NotFoundException(`Product with id ${id} not found`);
-    }
+  // update(id: number, newProduct: UpdateProductDto) {
+  //   const oldProduct = this.findOne(id);
 
-    return productIndex;
-  }
+  //   if (oldProduct) {
+  //     const indice = this.findIndex(oldProduct.id);
 
-  create(payload: CreateProductDto) {
-    this.counterId++;
-    const newProduct = {
-      id: this.counterId,
-      ...payload,
-    };
-    this.products.push(newProduct);
-    return newProduct;
-  }
+  //     this.products[indice] = { ...oldProduct, ...newProduct };
 
-  update(id: number, newProduct: UpdateProductDto) {
-    const oldProduct = this.findOne(id);
+  //     return this.products[indice];
+  //   }
 
-    if (oldProduct) {
-      const indice = this.findIndex(oldProduct.id);
+  //   return null;
+  // }
 
-      this.products[indice] = { ...oldProduct, ...newProduct };
+  // delete(id: number) {
+  //   const indice = this.findIndex(id);
 
-      return this.products[indice];
-    }
+  //   if (indice != -1) {
+  //     return this.products.splice(indice, 1);
+  //   }
 
-    return null;
-  }
-
-  delete(id: number) {
-    const indice = this.findIndex(id);
-
-    if (indice != -1) {
-      return this.products.splice(indice, 1);
-    }
-
-    return null;
-  }
+  //   return null;
+  // }
 }

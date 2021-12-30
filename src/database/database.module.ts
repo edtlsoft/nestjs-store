@@ -24,6 +24,7 @@ const API_KEY_PROD = '123456-secure';
           database: name,
           entities: [],
           synchronize: true,
+          autoLoadEntities: true,
         };
       },
     }),

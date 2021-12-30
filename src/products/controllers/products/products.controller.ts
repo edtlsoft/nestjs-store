@@ -23,12 +23,12 @@ export class ProductsController {
 
   @Get('/')
   @ApiOperation({ summary: 'List of products' })
-  findAll(): Product[] {
+  async findAll(): Promise<Product[]> {
     return this.productService.findAll();
   }
 
   @Get('/:id')
-  findOne(@Param('id', ParseIntPipe) id: number): Product {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Product> {
     return this.productService.findOne(+id);
   }
 
@@ -40,20 +40,20 @@ export class ProductsController {
     return `The product id is: ${productId} <br> And the category Id is: ${categoryId}`;
   }
 
-  @Post('/')
-  @HttpCode(HttpStatus.CREATED)
-  create(@Body() payload: CreateProductDto): Product {
-    console.log(payload);
-    return this.productService.create(payload);
-  }
+  // @Post('/')
+  // @HttpCode(HttpStatus.CREATED)
+  // create(@Body() payload: CreateProductDto): Product {
+  //   console.log(payload);
+  //   return this.productService.create(payload);
+  // }
 
-  @Put('/:id')
-  update(@Param('id') id: UpdateProductDto, @Body() payload: any): Product {
-    return this.productService.update(+id, payload);
-  }
+  // @Put('/:id')
+  // update(@Param('id') id: UpdateProductDto, @Body() payload: any): Product {
+  //   return this.productService.update(+id, payload);
+  // }
 
-  @Delete('/:id')
-  delete(@Param('id') id: number): any {
-    return this.productService.delete(+id);
-  }
+  // @Delete('/:id')
+  // delete(@Param('id') id: number): any {
+  //   return this.productService.delete(+id);
+  // }
 }
