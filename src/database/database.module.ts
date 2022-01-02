@@ -23,7 +23,7 @@ const API_KEY_PROD = '123456-secure';
           password,
           database: name,
           entities: [],
-          synchronize: true,
+          synchronize: false,
           autoLoadEntities: true,
         };
       },
