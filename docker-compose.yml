@@ -19,3 +19,25 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=PgAdminPassword
     ports:
       - '5050:80'
+    depends_on:
+      - postgres
+
+  mysql:
+    image: mysql:5
+    environment:
+      - MYSQL_DATABASE=nestjs_store
+      - MYSQL_ROOT_PASSWORD=MysqlDbPassword
+    ports:
+      - '3307:3306'
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - MYSQL_ROOT_PASSWORD=MysqlDbPassword
+      - PMA_HOST=mysql
+    ports:
+      - '8080:80'
+    depends_on:
+      - mysql

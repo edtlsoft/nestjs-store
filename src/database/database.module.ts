@@ -16,7 +16,7 @@ const API_KEY_PROD = '123456-secure';
         const { user, host, name, password, port } = configService.database;
 
         return {
-          type: 'postgres',
+          type: 'mysql',
           host,
           port,
           username: user,
@@ -36,17 +36,20 @@ const API_KEY_PROD = '123456-secure';
     },
     {
       provide: 'PG_CLIENT',
-      useFactory: (configService: ConfigType<typeof config>) => {
-        const { user, host, name, password, port } = configService.database;
+      useFactory: () => {
         const client = new Client({
-          host,
-          user,
-          password,
-          database: name,
-          port,
+          host: 'localhost',
+          user: 'root',
+          password: 'PostgresDbPassword',
+          database: 'nestjs_store',
+          port: 5432,
         });
 
-        client.connect();
+        try {
+          client.connect();
+        } catch (error) {
+          console.log(error);
+        }
 
         return client;
       },
