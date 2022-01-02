@@ -40,20 +40,22 @@ export class ProductsController {
     return `The product id is: ${productId} <br> And the category Id is: ${categoryId}`;
   }
 
-  // @Post('/')
-  // @HttpCode(HttpStatus.CREATED)
-  // create(@Body() payload: CreateProductDto): Product {
-  //   console.log(payload);
-  //   return this.productService.create(payload);
-  // }
+  @Post('/')
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() payload: CreateProductDto): Promise<Product> {
+    return this.productService.create(payload);
+  }
 
-  // @Put('/:id')
-  // update(@Param('id') id: UpdateProductDto, @Body() payload: any): Product {
-  //   return this.productService.update(+id, payload);
-  // }
+  @Put('/:id')
+  async update(
+    @Param('id') id: UpdateProductDto,
+    @Body() payload: any,
+  ): Promise<Product> {
+    return this.productService.update(+id, payload);
+  }
 
-  // @Delete('/:id')
-  // delete(@Param('id') id: number): any {
-  //   return this.productService.delete(+id);
-  // }
+  @Delete('/:id')
+  delete(@Param('id') id: number): any {
+    return this.productService.delete(+id);
+  }
 }
