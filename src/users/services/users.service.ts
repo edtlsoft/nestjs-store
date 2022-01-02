@@ -1,9 +1,10 @@
+import { CustomersService } from './customers.service';
 import { Client } from 'pg';
-import { ProductsService } from './../../../products/services/products/products.service';
+import { ProductsService } from '../../products/services/products/products.service';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
-import { User } from '../../entities/user.entity';
-import { CreateUserDto, UpdateUserDto } from '../../dtos/user.dto';
+import { User } from '../entities/user.entity';
+import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -15,12 +16,15 @@ export class UsersService {
     private configService: ConfigService,
     @Inject('PG_CLIENT') private clientPg: Client,
     @InjectRepository(User) private userRepo: Repository<User>,
+    private customerService: CustomersService,
   ) {}
 
   findAll() {
     const apiKey = this.configService.get<string>('API_HEY');
     console.log(apiKey);
-    return this.userRepo;
+    return this.userRepo.find({
+      relations: ['customer'],
+    });
   }
 
   findOne(id: number) {
@@ -31,8 +35,12 @@ export class UsersService {
     return user;
   }
 
-  create(data: CreateUserDto) {
+  async create(data: CreateUserDto) {
     const user = this.userRepo.create(data);
+    if (data.customerId) {
+      const customer = await this.customerService.findOne(data.customerId);
+      user.customer = customer;
+    }
     return this.userRepo.save(user);
   }
 
