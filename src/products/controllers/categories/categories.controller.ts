@@ -9,7 +9,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 
-import { CategoriesService } from '../../services/categories/categories.service';
+import { CategoriesService } from '../../services/categories.service';
 import { CreateCategoryDto, UpdateCategoryDto } from '../../dtos/category.dtos';
 
 import { ApiTags } from '@nestjs/swagger';

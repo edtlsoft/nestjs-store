@@ -9,7 +9,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 
-import { BrandsService } from '../../services/brands/brands.service';
+import { BrandsService } from '../../services/brands.service';
 import { CreateBrandDto, UpdateBrandDto } from '../../dtos/brand.dtos';
 
 import { ApiTags } from '@nestjs/swagger';

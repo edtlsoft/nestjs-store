@@ -1,6 +1,6 @@
 import { CustomersService } from './customers.service';
 import { Client } from 'pg';
-import { ProductsService } from '../../products/services/products/products.service';
+import { ProductsService } from '../../products/services/products.service';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 
 import { User } from '../entities/user.entity';
