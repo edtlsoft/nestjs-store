@@ -1,3 +1,4 @@
+import { Product } from 'src/products/entities/product.entity';
 import { OrderProduct } from './entities/order-product.entity';
 import { Order } from './entities/orders.entity';
 import { Module } from '@nestjs/common';
@@ -10,13 +11,28 @@ import { UsersController } from './controllers/users.controller';
 import { UsersService } from './services/users.service';
 import { User } from './entities/user.entity';
 import { Customer } from './entities/customer.entity';
+import { OrdersService } from './services/orders.service';
+import { OrdersController } from './controllers/orders.controller';
+import { OrderProductController } from './controllers/order-product.controller';
+import { OrderProductService } from './services/order-product.service';
 
 @Module({
   imports: [
     ProductsModule,
+    Product,
     TypeOrmModule.forFeature([User, Customer, Order, OrderProduct]),
   ],
-  controllers: [CustomerController, UsersController],
-  providers: [CustomersService, UsersService],
+  controllers: [
+    CustomerController,
+    UsersController,
+    OrdersController,
+    OrderProductController,
+  ],
+  providers: [
+    CustomersService,
+    UsersService,
+    OrdersService,
+    OrderProductService,
+  ],
 })
 export class UsersModule {}
