@@ -3,6 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Category } from '../entities/category.entity';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/category.dtos';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CategoriesService {
@@ -11,11 +12,11 @@ export class CategoriesService {
   ) {}
 
   findAll() {
-    return this.categoryRepo;
+    return this.categoryRepo.find();
   }
 
   findOne(id: number) {
-    const category = this.categoryRepo.find(id);
+    const category = this.categoryRepo.findOne(id);
     if (!category) {
       throw new NotFoundException(`Category #${id} not found`);
     }
