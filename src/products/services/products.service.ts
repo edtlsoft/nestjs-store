@@ -58,6 +58,26 @@ export class ProductsService {
     return this.productRepo.save(product);
   }
 
+  async removeCategoryByProduct(productId: number, categoryId: number) {
+    const product = await this.productRepo.findOne(productId, {
+      relations: ['categories'],
+    });
+    product.categories = product.categories.filter((c) => c.id !== categoryId);
+    return this.productRepo.save(product);
+  }
+
+  async addCategoryToProduct(productId: number, categoryId: number) {
+    const product = await this.productRepo.findOne(productId, {
+      relations: ['categories'],
+    });
+    const category = await this.categoryRepo.findOne(categoryId);
+    if (!product) {
+      throw new NotFoundException(`Category with id ${categoryId} not found`);
+    }
+    product.categories.push(category);
+    return this.productRepo.save(product);
+  }
+
   async update(id: number, payload: UpdateProductDto) {
     const product = await this.productRepo.findOne(id);
 
@@ -68,6 +88,13 @@ export class ProductsService {
     if (payload.brandId) {
       const brand = await this.brandRepo.findOne(+payload.brandId);
       product.brand = brand;
+    }
+
+    if (payload.categoriesIds) {
+      const categories = await this.categoryRepo.findByIds(
+        payload.categoriesIds,
+      );
+      product.categories = categories;
     }
 
     this.productRepo.merge(product, payload);

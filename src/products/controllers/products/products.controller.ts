@@ -29,7 +29,7 @@ export class ProductsController {
 
   @Get('/:id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<Product> {
-    return this.productService.findOne(+id);
+    return this.productService.findOne(id);
   }
 
   @Get('/:id/categories/:categoryId')
@@ -48,14 +48,30 @@ export class ProductsController {
 
   @Put('/:id')
   async update(
-    @Param('id') id: UpdateProductDto,
-    @Body() payload: any,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateProductDto,
   ): Promise<Product> {
-    return this.productService.update(+id, payload);
+    return this.productService.update(id, payload);
+  }
+
+  @Put('/:id/category/:categoryId')
+  async addCategory(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number,
+  ): Promise<Product> {
+    return this.productService.addCategoryToProduct(id, categoryId);
   }
 
   @Delete('/:id')
-  delete(@Param('id') id: number): any {
-    return this.productService.delete(+id);
+  delete(@Param('id', ParseIntPipe) id: number): any {
+    return this.productService.delete(id);
+  }
+
+  @Delete('/:id/category/:categoryId')
+  deleteCategory(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number,
+  ): any {
+    return this.productService.removeCategoryByProduct(id, categoryId);
   }
 }
