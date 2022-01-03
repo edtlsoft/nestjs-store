@@ -22,7 +22,9 @@ export class ProductsService {
   }
 
   async findOne(id: number): Promise<Product> {
-    const product = await this.productRepo.findOne(id);
+    const product = await this.productRepo.findOne(id, {
+      relations: ['brand', 'categories'],
+    });
 
     if (!product) {
       throw new NotFoundException(`Product with id ${id} not found`);
