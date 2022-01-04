@@ -8,6 +8,7 @@ import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -20,8 +21,8 @@ export class UsersService {
   ) {}
 
   findAll() {
-    const apiKey = this.configService.get<string>('API_HEY');
-    console.log(apiKey);
+    // const apiKey = this.configService.get<string>('API_KEY');
+    // console.log(apiKey);
     return this.userRepo.find({
       relations: ['customer'],
     });
@@ -35,12 +36,24 @@ export class UsersService {
     return user;
   }
 
+  findByEmail(email: string) {
+    return this.userRepo.findOne({
+      where: {
+        email,
+      },
+      select: ['email', 'role', 'customer'],
+    });
+  }
+
   async create(data: CreateUserDto) {
     const user = this.userRepo.create(data);
+    // user.password = await bcrypt.hash(data.password, 10);
+
     if (data.customerId) {
       const customer = await this.customerService.findOne(data.customerId);
       user.customer = customer;
     }
+
     return this.userRepo.save(user);
   }
 
