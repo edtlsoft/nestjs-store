@@ -1,9 +1,12 @@
+import { number } from 'joi';
 import {
   IsPositive,
   IsString,
   IsUrl,
   IsNotEmpty,
   IsArray,
+  IsOptional,
+  Min,
 } from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 export class CreateProductDto {
@@ -44,3 +47,13 @@ export class CreateProductDto {
 }
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {}
+
+export class FilterProductDto {
+  @IsOptional()
+  @IsPositive()
+  readonly limit: number;
+
+  @IsOptional()
+  @Min(0)
+  readonly offset: number;
+}

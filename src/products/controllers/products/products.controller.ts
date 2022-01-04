@@ -1,4 +1,8 @@
-import { CreateProductDto, UpdateProductDto } from '../../dtos/products.dtos';
+import {
+  CreateProductDto,
+  FilterProductDto,
+  UpdateProductDto,
+} from '../../dtos/products.dtos';
 import { ParseIntPipe } from '../../../common/parse-int.pipe';
 import { Product } from '../../entities/product.entity';
 import { ProductsService } from '../../services/products.service';
@@ -12,6 +16,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -23,8 +28,8 @@ export class ProductsController {
 
   @Get('/')
   @ApiOperation({ summary: 'List of products' })
-  async findAll(): Promise<Product[]> {
-    return this.productService.findAll();
+  async findAll(@Query() params: FilterProductDto): Promise<Product[]> {
+    return this.productService.findAll(params);
   }
 
   @Get('/:id')
