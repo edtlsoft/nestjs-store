@@ -39,7 +39,7 @@ export class CreateProductDto {
   @IsPositive()
   @IsNotEmpty()
   @ApiProperty()
-  readonly brandId: string;
+  readonly brandId: number;
 
   @IsArray()
   @IsNotEmpty()

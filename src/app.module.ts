@@ -12,6 +12,7 @@ import { UsersModule } from './users/users.module';
 import { PaymentsModule } from './payments/payments.module';
 import { DatabaseModule } from './database/database.module';
 import { ProductsModule } from './products/products.module';
+import { AuthModule } from './auth/auth.module';
 import configSchema from './config/configSchema';
 
 @Module({
@@ -27,6 +28,7 @@ import configSchema from './config/configSchema';
     PaymentsModule,
     HttpModule,
     DatabaseModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
