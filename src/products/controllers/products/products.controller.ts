@@ -21,9 +21,10 @@ import {
 } from '@nestjs/common';
 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtAuthGuard)
 @ApiTags('Products')
 @Controller('products')
 export class ProductsController {
@@ -35,6 +36,7 @@ export class ProductsController {
     return this.productService.findAll(params);
   }
 
+  @Public()
   @Get('/:id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<Product> {
     return this.productService.findOne(id);
