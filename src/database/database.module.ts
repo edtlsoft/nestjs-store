@@ -4,10 +4,12 @@ import { ConfigType } from '@nestjs/config';
 import config from '../config/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import ssl from '../common/get-ssl';
+import getSSL from 'src/common/get-ssl';
 
 const API_KEY = '123456';
 const API_KEY_PROD = '123456-secure';
+
+const ssl = getSSL();
 
 @Global()
 @Module({
@@ -25,10 +27,10 @@ const API_KEY_PROD = '123456-secure';
           // username: user,
           // password,
           // database: name,
-          entities: ['dist/**/**/*.entity.{ts,js}'],
+          entities: [],
           synchronize: false,
           autoLoadEntities: true,
-          ssl: ssl(),
+          ssl,
         };
       },
     }),
@@ -44,7 +46,7 @@ const API_KEY_PROD = '123456-secure';
         // const { user, host, name, password, port } = configService.database;
         const client = new Client({
           connectionString: configService.postgresUrl,
-          ssl: ssl(),
+          ssl,
           // host,
           // user,
           // password,

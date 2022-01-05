@@ -1,3 +1,9 @@
+const ssl = process.env.DYNO
+  ? {
+      rejectUnauthorized: false,
+    }
+  : false;
+
 module.exports = {
   type: 'postgres',
   url: process.env.DATABASE_URL,
@@ -9,7 +15,5 @@ module.exports = {
   cli: {
     migrationsDir: 'src/database/migrations',
   },
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl,
 };
