@@ -22,12 +22,10 @@ export class ProfileController {
   @Roles(Role.CUSTOMER)
   @Get('my-orders')
   getOrders(@Req() req: Request) {
-    console.log(req.user);
     const user = req.user as PayloadToken;
     if (!user) {
       throw new UnauthorizedException('Unauthorized user.');
     }
-    console.log(user.sub);
     return this.orderService.ordersByCustomer(user.sub);
   }
 }

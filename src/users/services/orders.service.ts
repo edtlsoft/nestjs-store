@@ -4,12 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateOrderDto, UpdateOrderDto } from '../dtos/order.dto';
 import { Order } from '../entities/orders.entity';
+import { User } from '../entities/user.entity';
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private orderRepo: Repository<Order>,
     @InjectRepository(Customer) private customerRepo: Repository<Customer>,
+    @InjectRepository(User) private userRepo: Repository<User>,
   ) {}
 
   findAll() {
@@ -56,10 +58,13 @@ export class OrdersService {
     return this.orderRepo.delete(order);
   }
 
-  ordersByCustomer(customerId: number) {
+  async ordersByCustomer(userId: number) {
+    const user = await this.userRepo.findOne(userId, {
+      relations: ['customer'],
+    });
     return this.orderRepo.find({
       where: {
-        customer: customerId,
+        customer: user.customer,
       },
     });
   }
