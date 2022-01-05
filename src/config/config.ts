@@ -10,5 +10,6 @@ export default registerAs('config', () => {
       port: parseInt(process.env.DATABASE_PORT),
     },
     apiKey: process.env.API_KEY,
+    jwtSecret: process.env.JWT_SECRET,
   };
 });
