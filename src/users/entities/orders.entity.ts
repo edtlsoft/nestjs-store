@@ -1,11 +1,9 @@
 import { OrderProduct } from './order-product.entity';
-import { Product } from 'src/products/entities/product.entity';
 import { Customer } from './customer.entity';
 import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -37,9 +35,6 @@ export class Order {
   @ManyToOne(() => Customer, (customer) => customer.orders)
   @JoinColumn()
   customer: Customer;
-
-  // @ManyToMany(() => Product)
-  // products: Product[];
 
   @Exclude()
   @OneToMany(() => OrderProduct, (item) => item.order)
