@@ -26,9 +26,9 @@ const API_KEY_PROD = '123456-secure';
           entities: [],
           synchronize: false,
           autoLoadEntities: true,
-          ssl: {
-            rejectUnauthorized: false,
-          },
+          // ssl: {
+          //   rejectUnauthorized: false,
+          // },
         };
       },
     }),
@@ -44,9 +44,9 @@ const API_KEY_PROD = '123456-secure';
         // const { user, host, name, password, port } = configService.database;
         const client = new Client({
           connectionString: configService.postgresUrl,
-          ssl: {
-            rejectUnauthorized: false,
-          },
+          // ssl: {
+          //   rejectUnauthorized: false,
+          // },
           // host,
           // user,
           // password,
