@@ -1,3 +1,4 @@
+import { RolesGuard } from './../../../auth/guards/roles.guard';
 import {
   CreateProductDto,
   FilterProductDto,
@@ -23,8 +24,10 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/models/roles.model';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Products')
 @Controller('products')
 export class ProductsController {
@@ -50,6 +53,7 @@ export class ProductsController {
     return `The product id is: ${productId} <br> And the category Id is: ${categoryId}`;
   }
 
+  @Roles(Role.ADMIN)
   @Post('/')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateProductDto): Promise<Product> {
