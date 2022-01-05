@@ -55,4 +55,12 @@ export class OrdersService {
     }
     return this.orderRepo.delete(order);
   }
+
+  ordersByCustomer(customerId: number) {
+    return this.orderRepo.find({
+      where: {
+        customer: customerId,
+      },
+    });
+  }
 }
