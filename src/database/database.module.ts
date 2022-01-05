@@ -27,7 +27,7 @@ const ssl = getSSL();
           // username: user,
           // password,
           // database: name,
-          entities: [],
+          entities: [['dist/**/*.entity{.ts,.js}'],],
           synchronize: false,
           autoLoadEntities: true,
           ssl,
